@@ -1,0 +1,2 @@
+# hazelce
+ My own terminal!
