@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <Reference Include="LezaHLib">
-      <HintPath>..\..\LezaHLib\LezaHLib\bin\Debug\net5.0\LezaHLib.dll</HintPath>
+      <HintPath>LezaHLib.dll</HintPath>
     </Reference>
   </ItemGroup>
 
