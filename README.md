@@ -11,9 +11,12 @@ Pre-requisites:
 # Available Commands
  - cd
  - newfile
+ - delfile
  - nvim (comming soon?)
  - echo
  - exit (unstable)
  - cls
+ - mkdir
+ - deldir
 More commands comming soon!
 Want more commands? Please submit a PR!

@@ -10,6 +10,6 @@ namespace HazelCE
     {
         public string updateStream = "Alpha";
         public string ver = "1";
-        public int build = 1;
+        public int build = 2;
     }
 }

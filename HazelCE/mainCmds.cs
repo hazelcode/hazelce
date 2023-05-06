@@ -79,6 +79,41 @@ namespace HazelCE.Commands
 
                 }
             }
+            else if (input.StartsWith("mkdir"))
+            {
+                string newDirectory = Path.Combine(Environment.CurrentDirectory, input.Replace("mkdir ", null));
+                if (!Directory.Exists(newDirectory))
+                {
+                    Directory.CreateDirectory(newDirectory);
+                } else
+                {
+                    Console.WriteLine($"{input.Replace("mkdir ", null)} already exists!");
+                }
+            }
+            else if (input.StartsWith("deldir"))
+            {
+                string delDirectory = Path.Combine(Environment.CurrentDirectory, input.Replace("deldir ", null));
+                if (Directory.Exists(delDirectory))
+                {
+                    Directory.Delete(delDirectory);
+                }
+                else
+                {
+                    Console.WriteLine($"{input.Replace("deldir ", null)} doesn't exist!");
+                }
+            }
+            else if (input.StartsWith("delfile"))
+            {
+                string fileName = Path.Combine(Environment.CurrentDirectory, input.Replace("delfile ", null));
+                if (File.Exists(fileName))
+                {
+                    File.Delete(fileName);
+                }
+                else
+                {
+                    Console.WriteLine($"{input.Replace("delfile ", null)} doesn't exist!");
+                }
+            }
         }
     }
 }
