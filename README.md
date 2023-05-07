@@ -18,5 +18,6 @@ Pre-requisites:
  - cls
  - mkdir
  - deldir
+ - copy
 More commands comming soon!
 Want more commands? Please submit a PR!

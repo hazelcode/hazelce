@@ -114,6 +114,54 @@ namespace HazelCE.Commands
                     Console.WriteLine($"{input.Replace("delfile ", null)} doesn't exist!");
                 }
             }
+            else if (input.StartsWith("copy")){
+                string sourceFile = Path.Combine(Environment.CurrentDirectory, input.Replace("copy ", null));
+                string user = Environment.UserName;
+                sourceFile = sourceFile.Replace("%USER%", user);
+                sourceFile = sourceFile.Replace("%appdata%", $@"C:\Users\{Environment.UserName}\AppData\Roaming");
+                sourceFile = sourceFile.Replace("appdata", $@"C:\Users\{Environment.UserName}\AppData");
+                sourceFile = sourceFile.Replace("programFiles", Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
+                sourceFile = sourceFile.Replace("programFiles86", Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86));
+                Console.WriteLine("Copy the file to (include file name):");
+                string destFile = Console.ReadLine();
+                destFile = destFile.Replace("%USER%", user);
+                destFile = destFile.Replace("%appdata%", $@"C:\Users\{Environment.UserName}\AppData\Roaming");
+                destFile = destFile.Replace("appdata", $@"C:\Users\{Environment.UserName}\AppData");
+                destFile = destFile.Replace("appdata", $@"C:\Users\{Environment.UserName}\AppData");
+                destFile = destFile.Replace("programFiles", Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
+                destFile = destFile.Replace("programFiles86", Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86));
+                try {
+                    if(Directory.Exists(destFile)){
+                        File.Copy(sourceFile, destFile);
+                    } else {
+                        string CreateDir = Path.GetDirectoryName(destFile);
+                        Directory.CreateDirectory(CreateDir);
+                        File.Copy(sourceFile, destFile);
+                    }
+                } catch {
+                    string lastTry = Path.Combine(Environment.CurrentDirectory, destFile);
+                    try {
+                        if(Directory.Exists(lastTry)){
+                            File.Copy(sourceFile, lastTry);
+                        } else {
+                            string CreateDir2 = Path.GetDirectoryName(lastTry);
+                            Directory.CreateDirectory(CreateDir2);
+                            File.Copy(sourceFile, lastTry);
+                        }
+                    } catch {
+                        Console.WriteLine($@"
+                    
+                        {sourceFile}
+
+                        to:
+
+                        {lastTry}
+
+                        ");
+                        Console.WriteLine("Can't copy that file. Please check that the source file and the path destination exists.");
+                    }
+                }
+            }
         }
     }
 }
