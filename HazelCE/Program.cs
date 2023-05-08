@@ -25,7 +25,8 @@ namespace HazelCE
             startup.startup();
             while(decs.exit == false)
             {
-                cmds.cmds();
+                LezaHLib.Functions functions = new LezaHLib.Functions();
+                cmds.cmds(functions.read());
             }
         }
     }
