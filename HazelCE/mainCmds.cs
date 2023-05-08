@@ -11,11 +11,11 @@ namespace HazelCE.Commands
     {
         startupScreen startup = new startupScreen();
         publicDeclarations decs = new publicDeclarations();
-
-        public void cmds()
+        bool echo = true;
+        public void cmds(string entry)
         {
             LezaHLib.Functions functions = new LezaHLib.Functions();
-            string input = functions.read();
+            string input = entry;
             if (input.StartsWith("echo"))
             {
                 Console.WriteLine(input.Replace("echo ", null));
@@ -23,7 +23,7 @@ namespace HazelCE.Commands
             else if (input.StartsWith("cls"))
             {
                 Console.Clear();
-                startup.startup();
+                if(echo == true) {startup.startup();}
             }
             else if (input.StartsWith("exit"))
             {
@@ -32,7 +32,9 @@ namespace HazelCE.Commands
             }
             else if (input.StartsWith("nvim"))
             {
-                Console.WriteLine("Coming soon...");
+                if(echo == true) {
+                    Console.WriteLine("Coming soon...");
+                }
             }
             else if (input.StartsWith("newfile"))
             {
@@ -51,17 +53,10 @@ namespace HazelCE.Commands
             {
                 if (input == "cd .." || input == "cd..")
                 {
-                    try
-                    {
-                        decs.movedDirectory = true;
+                    decs.movedDirectory = true;
                         string previousFolder = Path.GetDirectoryName(Environment.CurrentDirectory);
                         Environment.CurrentDirectory = previousFolder;
-                        Console.WriteLine(Environment.CurrentDirectory);
-                    }
-                    catch
-                    {
-                        // do nothing
-                    }
+                        if(echo == true) {Console.WriteLine(Environment.CurrentDirectory);}
                 }
                 else
                 {
@@ -70,7 +65,7 @@ namespace HazelCE.Commands
                         decs.movedDirectory = true;
                         string nextFolder = Path.Combine(Environment.CurrentDirectory, input.Replace("cd ", null));
                         Environment.CurrentDirectory = nextFolder;
-                        Console.WriteLine(Environment.CurrentDirectory);
+                        if(echo == true) {Console.WriteLine(Environment.CurrentDirectory);}
                     }
                     catch
                     {
@@ -87,7 +82,7 @@ namespace HazelCE.Commands
                     Directory.CreateDirectory(newDirectory);
                 } else
                 {
-                    Console.WriteLine($"{input.Replace("mkdir ", null)} already exists!");
+                    if(echo == true) {Console.WriteLine($"{input.Replace("mkdir ", null)} already exists!");}
                 }
             }
             else if (input.StartsWith("deldir"))
@@ -160,6 +155,25 @@ namespace HazelCE.Commands
                         ");
                         Console.WriteLine("Can't copy that file. Please check that the source file and the path destination exists.");
                     }
+                }
+            }
+            else if(input.StartsWith(":") || entry.StartsWith(":")){
+                TerminalFileReader reader = new TerminalFileReader();
+                if(entry.StartsWith(":")){
+                    input = entry;
+                }
+                string file = input.Replace(":", null);
+                try {
+                    reader.ReadFile(file + ".hazelce");
+                } catch {
+                    Console.WriteLine($@"Script {file}.hazelce not found");
+                }
+            }
+            else if(input.StartsWith("@echo")){
+                if(input == "@echo off"){
+                    echo = false;
+                } else if(input == "@echo on"){
+                    echo = true;
                 }
             }
         }
