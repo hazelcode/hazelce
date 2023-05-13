@@ -8,8 +8,6 @@ namespace HazelCE
 {
     class GeneralInfo
     {
-        public string updateStream = "Alpha";
-        public string ver = "1";
-        public int build = 3;
+        public (string updateStream, string ver, int build) ver = ("Alpha", "1", 3);
     }
 }
