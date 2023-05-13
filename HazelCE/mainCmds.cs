@@ -12,10 +12,11 @@ namespace HazelCE.Commands
         startupScreen startup = new startupScreen();
         publicDeclarations decs = new publicDeclarations();
         bool echo = true;
+        public string input;
         public void cmds(string entry)
         {
             LezaHLib.Functions functions = new LezaHLib.Functions();
-            string input = entry;
+            input = entry;
             if (input.StartsWith("echo"))
             {
                 Console.WriteLine(input.Replace("echo ", null));
@@ -25,10 +26,9 @@ namespace HazelCE.Commands
                 Console.Clear();
                 if(echo == true) {startup.startup();}
             }
-            else if (input.StartsWith("exit"))
+            else if (entry == "exit")
             {
-                Console.Clear();
-                decs.exit = true;
+                Console.WriteLine("The command {0} is not intended for HazelCE Scripts.", entry);
             }
             else if (input.StartsWith("nvim"))
             {

@@ -14,7 +14,7 @@ Pre-requisites:
  - delfile
  - nvim (comming soon?)
  - echo
- - exit (unstable)
+ - exit
  - cls
  - mkdir
  - deldir

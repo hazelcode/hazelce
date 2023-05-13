@@ -27,6 +27,7 @@ namespace HazelCE
             {
                 LezaHLib.Functions functions = new LezaHLib.Functions();
                 cmds.cmds(functions.read());
+                if(cmds.input == "exit"){   Console.Clear();  break;  }
             }
         }
     }
