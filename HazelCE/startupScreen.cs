@@ -13,11 +13,11 @@ namespace HazelCE
         public void startup()
         {
             GeneralInfo info = new GeneralInfo();
-            Console.Title = $"HazelCE {info.ver.updateStream} {info.ver} (build {info.ver.build})";
+            Console.Title = $"HazelCE {info.ver.updateStream} {info.ver.ver} (build {info.ver.build})";
             string EnvUsr = Environment.UserName;
             OperatingSystem os = Environment.OSVersion;
             Version ver = os.Version;
-            Console.WriteLine($"HazelCE {info.ver.updateStream} {info.ver} | " + EnvUsr);
+            Console.WriteLine($"HazelCE {info.ver.updateStream} {info.ver.ver} | " + EnvUsr);
             Console.WriteLine(os.Platform.ToString() + " " + ver.Major + " " + LezaHLib.OS.Functions.GetArchitecture());
             try
             {
