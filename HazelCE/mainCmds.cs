@@ -30,12 +30,6 @@ namespace HazelCE.Commands
             {
                 Console.WriteLine("The command {0} is not intended for HazelCE Scripts.", entry);
             }
-            else if (input.StartsWith("nvim"))
-            {
-                if(echo == true) {
-                    Console.WriteLine("Coming soon...");
-                }
-            }
             else if (input.StartsWith("newfile"))
             {
                 string fileName = input.Replace("newfile ", null);
@@ -45,7 +39,7 @@ namespace HazelCE.Commands
                 }
                 else
                 {
-                    StreamWriter file = File.CreateText($@"{Environment.CurrentDirectory}\{fileName}");
+                    StreamWriter file = File.CreateText($@"{Environment.CurrentDirectory}/{fileName}");
                     file.Close();
                 }
             }

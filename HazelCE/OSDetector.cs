@@ -5,7 +5,7 @@ namespace HazelCE
 {
     public class OSDetector
     {
-        public static string isOS() {
+        public string OSName() {
             // Detect OS by calling this string
             if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows)){
                 return "Windows";
