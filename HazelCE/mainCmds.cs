@@ -17,25 +17,25 @@ namespace HazelCE.Commands
         {
             LezaHLib.Functions functions = new LezaHLib.Functions();
             input = entry;
-            if (input.StartsWith("echo"))
+            if (input.StartsWith("echo "))
             {
                 Console.WriteLine(input.Replace("echo ", null));
             }
-            else if (input.StartsWith("cls"))
+            else if (input.StartsWith("cls") || input.StartsWith("clear"))
             {
                 Console.Clear();
                 if(echo == true) {startup.startup();}
             }
             else if (entry == "exit")
             {
-                Console.WriteLine("The command {0} is not intended for HazelCE Scripts.", entry);
+                Console.WriteLine("The command exit is not intended for HazelCE Scripts.");
             }
             else if (input.StartsWith("newfile"))
             {
-                string fileName = input.Replace("newfile ", null);
-                if (fileName == "newfile")
+                string fileName = input.Replace("newfile", newValue: null);
+                if (fileName == "" || fileName.Trim() == "")
                 {
-                    Console.WriteLine("Error: Please specify a name");
+                    Console.WriteLine("Error: Please specify a relative or absolute directory");
                 }
                 else
                 {
@@ -43,7 +43,7 @@ namespace HazelCE.Commands
                     file.Close();
                 }
             }
-            else if (input.StartsWith("cd"))
+            else if (input.StartsWith("cd "))
             {
                 if (input == "cd .." || input == "cd..")
                 {
@@ -70,25 +70,30 @@ namespace HazelCE.Commands
             }
             else if (input.StartsWith("mkdir"))
             {
-                string newDirectory = Path.Combine(Environment.CurrentDirectory, input.Replace("mkdir ", null));
-                if (!Directory.Exists(newDirectory))
-                {
-                    Directory.CreateDirectory(newDirectory);
-                } else
-                {
-                    if(echo == true) {Console.WriteLine($"{input.Replace("mkdir ", null)} already exists!");}
+                try{
+                    string newDirectory = Path.Combine(Environment.CurrentDirectory, input.Replace("mkdir ", null));
+                    if (!Directory.Exists(newDirectory))
+                    {
+                        Directory.CreateDirectory(newDirectory);
+                    } else
+                    {
+                        if(echo == true) {Console.WriteLine($"{input.Replace("mkdir ", null)} already exists!");}
+                    }
+                } catch(IOException e) {
+                    Console.WriteLine(e.Message);
                 }
+                
             }
             else if (input.StartsWith("deldir"))
             {
                 string delDirectory = Path.Combine(Environment.CurrentDirectory, input.Replace("deldir ", null));
-                if (Directory.Exists(delDirectory))
-                {
-                    Directory.Delete(delDirectory);
-                }
-                else
-                {
-                    Console.WriteLine($"{input.Replace("deldir ", null)} doesn't exist!");
+                try{
+                    if (Directory.Exists(delDirectory))
+                    {
+                        Directory.Delete(delDirectory);
+                    }
+                } catch(IOException e){
+                    Console.WriteLine(e.Message);
                 }
             }
             else if (input.StartsWith("delfile"))
@@ -100,54 +105,44 @@ namespace HazelCE.Commands
                 }
                 else
                 {
-                    Console.WriteLine($"{input.Replace("delfile ", null)} doesn't exist!");
+                    Console.WriteLine($"File '{input.Replace("delfile ", null)}' doesn't exist!");
                 }
             }
             else if (input.StartsWith("copy")){
-                string sourceFile = Path.Combine(Environment.CurrentDirectory, input.Replace("copy ", null));
-                string user = Environment.UserName;
-                sourceFile = sourceFile.Replace("%USER%", user);
-                sourceFile = sourceFile.Replace("%appdata%", $@"C:\Users\{Environment.UserName}\AppData\Roaming");
-                sourceFile = sourceFile.Replace("appdata", $@"C:\Users\{Environment.UserName}\AppData");
-                sourceFile = sourceFile.Replace("programFiles", Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
-                sourceFile = sourceFile.Replace("programFiles86", Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86));
-                Console.WriteLine("Copy the file to (include file name):");
-                string destFile = Console.ReadLine();
-                destFile = destFile.Replace("%USER%", user);
-                destFile = destFile.Replace("%appdata%", $@"C:\Users\{Environment.UserName}\AppData\Roaming");
-                destFile = destFile.Replace("appdata", $@"C:\Users\{Environment.UserName}\AppData");
-                destFile = destFile.Replace("appdata", $@"C:\Users\{Environment.UserName}\AppData");
-                destFile = destFile.Replace("programFiles", Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
-                destFile = destFile.Replace("programFiles86", Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86));
-                try {
-                    if(Directory.Exists(destFile)){
-                        File.Copy(sourceFile, destFile);
-                    } else {
-                        string CreateDir = Path.GetDirectoryName(destFile);
-                        Directory.CreateDirectory(CreateDir);
-                        File.Copy(sourceFile, destFile);
-                    }
-                } catch {
-                    string lastTry = Path.Combine(Environment.CurrentDirectory, destFile);
+                string filter = input.Replace("copy", null);
+                if (filter == "" || filter.Trim() == "")
+                {
+                    Console.WriteLine("Error: Please specify a relative or absolute directory");
+                } else {
+                    string sourceFile = Path.Combine(Environment.CurrentDirectory, input.Replace("copy ", null));
+                    string user = Environment.UserName;
+                    sourceFile = sourceFile.Replace("%USER%", user);
+                    sourceFile = sourceFile.Replace("%appdata%", $@"C:\Users\{Environment.UserName}\AppData\Roaming");
+                    sourceFile = sourceFile.Replace("appdata", $@"C:\Users\{Environment.UserName}\AppData");
+                    sourceFile = sourceFile.Replace("programFiles", Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
+                    sourceFile = sourceFile.Replace("programFiles86", Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86));
+                    Console.WriteLine("Copy the file to (include file name):");
+                    string destFile = Console.ReadLine();
+                    destFile = destFile.Replace("%USER%", user);
+                    destFile = destFile.Replace("%appdata%", $@"C:\Users\{Environment.UserName}\AppData\Roaming");
+                    destFile = destFile.Replace("appdata", $@"C:\Users\{Environment.UserName}\AppData");
+                    destFile = destFile.Replace("appdata", $@"C:\Users\{Environment.UserName}\AppData");
+                    destFile = destFile.Replace("programFiles", Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
+                    destFile = destFile.Replace("programFiles86", Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86));
                     try {
-                        if(Directory.Exists(lastTry)){
-                            File.Copy(sourceFile, lastTry);
-                        } else {
-                            string CreateDir2 = Path.GetDirectoryName(lastTry);
-                            Directory.CreateDirectory(CreateDir2);
-                            File.Copy(sourceFile, lastTry);
-                        }
-                    } catch {
+                            File.Copy(sourceFile, destFile);
+                            Console.WriteLine($"{sourceFile} copied to {destFile}");
+                    } catch(IOException e) {
                         Console.WriteLine($@"
-                    
-                        {sourceFile}
 
-                        to:
+                            {sourceFile}
 
-                        {lastTry}
+                            to:
 
-                        ");
-                        Console.WriteLine("Can't copy that file. Please check that the source file and the path destination exists.");
+                            {destFile}
+
+                            ");
+                            Console.WriteLine(e.Message);
                     }
                 }
             }
