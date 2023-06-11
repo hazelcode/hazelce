@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace HazelCE
 {
-    class GeneralInfo
+    public class GeneralInfo
     {
-        public (string updateStream, string ver, int build) ver = ("Alpha", "2", 5);
+        public (string updateStream, string ver, int build) ver = ("Alpha", "2", 6);
+    }
+    public class versionJson{
+        public string updateStream { get; set; }
+        public string ver { get; set; }
+        public int build { get; set; }
     }
 }
