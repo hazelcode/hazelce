@@ -8,7 +8,7 @@ namespace HazelCE
 {
     public class GeneralInfo
     {
-        public (string updateStream, string ver, int build) ver = ("Alpha", "2", 7);
+        public (string updateStream, string ver, int build) ver = ("Alpha", "3", 8);
     }
     public class versionJson{
         public string updateStream { get; set; }

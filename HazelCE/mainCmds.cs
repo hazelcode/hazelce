@@ -165,6 +165,9 @@ namespace HazelCE.Commands
                     echo = true;
                 }
             }
+            else if(input.StartsWith("llama ")){
+                Console.WriteLine("llama package manager coming soon");
+            }
         }
     }
 }
