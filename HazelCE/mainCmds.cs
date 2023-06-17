@@ -32,7 +32,7 @@ namespace HazelCE.Commands
             }
             else if (input.StartsWith("newfile"))
             {
-                string fileName = input.Replace("newfile", newValue: null);
+                string fileName = input.Replace("newfile ", null);
                 if (fileName == "" || fileName.Trim() == "")
                 {
                     Console.WriteLine("Error: Please specify a relative or absolute directory");
@@ -165,8 +165,22 @@ namespace HazelCE.Commands
                     echo = true;
                 }
             }
-            else if(input.StartsWith("llama ")){
+            else if(input.StartsWith("llama")){
                 Console.WriteLine("llama package manager coming soon");
+            }
+            else if(input.StartsWith("ls") || input.StartsWith("dir")){
+                string[] directories = Directory.GetDirectories(@"./");
+                string[] files = Directory.GetFiles(@"./");
+                int totalCount = directories.Length + files.Length;
+                Console.WriteLine("Files & Directories");
+                foreach (string directory in directories)
+                {
+                    Console.WriteLine("FOLDER || " + directory.Replace(@"./", null));
+                }
+                foreach(string file in files){
+                    Console.WriteLine("FILE   || " + file.Replace(@"./", null));
+                }
+                Console.WriteLine($"Total: {totalCount} files and directories ({files.Length} files, {directories.Length} directories).");
             }
         }
     }

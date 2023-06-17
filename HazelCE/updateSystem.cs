@@ -26,7 +26,7 @@ namespace HazelCE
             if(WebRequest?.updateStream == DeserializedJson?.updateStream){
                 if(WebRequest?.ver != DeserializedJson?.ver){
                     if(WebRequest?.build > DeserializedJson?.build){
-                        Console.WriteLine($"There is a new HazelCE update available!\nCURRENT >> {DeserializedJson?.updateStream} {DeserializedJson?.ver} (Build {DeserializedJson?.build})\nAVAILABLE >> {WebRequest?.updateStream} {WebRequest?.ver} (Build {WebRequest?.build})\nDownload from https://github.com/tacozyt/hazelce/releases");
+                        Console.WriteLine($"There is a new HazelCE update available!\nCURRENT >> {DeserializedJson?.updateStream} {DeserializedJson?.ver} (Build {DeserializedJson?.build})\nAVAILABLE >> {WebRequest?.updateStream} {WebRequest?.ver} (Build {WebRequest?.build})\nDownload from https://github.com/tacozyt/hazelce/releases\n");
                     }
                 }
             }
